@@ -1,10 +1,10 @@
-SELECT EXTRACT(MONTH FROM date_date) AS datemonth, date_date,
-ROUND(SUM(operational_margin) - SUM(ads_cost),2) AS ads_margin ,AVG(average_basket) AS average_basket,SUM(operational_margin) AS operational_margin,
-SUM(ads_cost) AS ads_cost,SUM(impression) AS ads_impression, SUM(click) AS ads_clicks , SUM(total_product_sold) AS qunatity,
- SUM(Total_revenue) AS revenue ,SUM(total_purchase_cost) AS purchase_cost ,SUM(Total_shipping_fees) AS shipping_fee,
- SUM(Total_log_costs) AS log_cost
-FROM {{ ref('finance_days') }}
-LEFT JOIN {{ ref('int_campaigns_day') }}
-USING(date_date)
-GROUP BY datemonth ,date_date
-ORDER BY date_date
+SELECT FORMAT_DATE('%m-%Y', date_date) AS datemonth, 
+ROUND(SUM(ads_margin)) AS ads_margin ,AVG(average_basket) AS average_basket,
+SUM(operational_margin) AS operational_margin,
+SUM(ads_cost) AS ads_cost,SUM(ads_impression) AS ads_impression, SUM(ads_clicks) AS ads_clicks , 
+SUM(qunatity) AS qunatity, SUM(revenue) AS revenue ,SUM(purchase_cost) AS purchase_cost ,
+SUM(shipping_fee) AS shipping_fee,
+ SUM(log_cost) AS log_cost
+FROM {{ ref('finance_campaigns_day') }}
+GROUP BY datemonth 
+ORDER BY datemonth 
